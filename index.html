@@ -92,10 +92,24 @@
     form.addEventListener('submit', e => {
       e.preventDefault();
       let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+
+        if (Number(secondNum) === 0 && operator === "/") {
+          throw new Error("Can't divide by zero, twin :/");
+        }
+
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch(error) {
+        console.error(error);
+        output.textContent = "Ooooops there's an error... :(";
+      }
+      finally {
+        console.log('I tried...');
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
