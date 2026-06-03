@@ -106,10 +106,18 @@
       console.log("Error object: ", error);
       return true;
     };
+
     class FunnyError extends Error {
       constructor(message) {
         super(message);
         this.name = 'FunnyError';
+      }
+    }
+
+    class DivisionError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'DivisionError';
       }
     }
     
@@ -122,8 +130,12 @@
         let secondNum = document.querySelector('#second-num').value;
         let operator = document.querySelector('#operator').value;
 
+        if (secondNum === "" || firstNum == "") {
+          throw new Error("Put some numbers in first");
+        }
+
         if (Number(secondNum) === 0 && operator === "/") {
-          throw new Error("Can't divide by zero, twin :/");
+          throw new DivisionError("Can't divide by zero, twin :/");
         }
 
         if (Number(firstNum) === 6 && Number(secondNum) === 7) {
@@ -134,10 +146,10 @@
       }
       catch(error) {
         console.error(error);
-        output.textContent = error;
+        output.textContent = error.message;
       }
       finally {
-        console.log('I tried...');
+        console.log('Hmm there was some sort of error...');
       }
     });
 
