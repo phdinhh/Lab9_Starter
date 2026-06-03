@@ -87,7 +87,32 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+  window.TrackJS && TrackJS.install({ 
+    token: "3a737a9d419e459dae34c3b588f6f37a"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+  </script>
+  <script>
+    window.onerror = function(message, url, line, column, error) {
+      console.log("Oh no, it's a global error...");
+      console.log("haha L");
+      console.log("sorry here's some real info");
+      console.log("Error message: ", message);
+      console.log("URL: ", url);
+      console.log("Line: ", line);
+      console.log("Column: ", column);
+      console.log("Error object: ", error);
+      return true;
+    };
+    class FunnyError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'FunnyError';
+      }
+    }
+    
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -101,11 +126,15 @@
           throw new Error("Can't divide by zero, twin :/");
         }
 
+        if (Number(firstNum) === 6 && Number(secondNum) === 7) {
+          throw new FunnyError("haha 67 67 67 67 67");
+        }
+
         output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
       }
       catch(error) {
         console.error(error);
-        output.textContent = "Ooooops there's an error... :(";
+        output.textContent = error;
       }
       finally {
         console.log('I tried...');
@@ -189,6 +218,11 @@
     // console trace
     errorBtns[13].addEventListener('click', () => {
       console.trace();
+    });
+
+    // global error
+    errorBtns[14].addEventListener('click', () => {
+      thisIsNotARealFunctionOops();
     });
   </script>
 </body>
